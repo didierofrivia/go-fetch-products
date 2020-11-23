@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,12 +8,11 @@ import (
 	"time"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/pkg/runtime/serializer"
+	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/client-go/rest"
 
 	"github.com/didierofrivia/go-fetch-products/pkg/apis/k8sinitiative.3scale.net/v1alpha1"
 	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/client-go/rest"
 )
 
 const homepageEndPoint = "/"
@@ -71,7 +69,7 @@ func handleProductsPage(w http.ResponseWriter, r *http.Request) {
 		err := threescaleRestClient.
 			Get().
 			Resource("products").
-			Do(context.TODO()).
+			Do().
 			Into(&result)
 
 		fmt.Printf("%d results found: %+v\n", len(result.Items), result)
