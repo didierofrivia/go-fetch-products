@@ -68,6 +68,7 @@ func handleProductsPage(w http.ResponseWriter, r *http.Request) {
 	for {
 		err := threescaleRestClient.
 			Get().
+			Namespace("k8sinitiative").
 			Resource("products").
 			Do().
 			Into(&result)
