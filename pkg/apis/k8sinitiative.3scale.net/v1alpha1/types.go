@@ -11,7 +11,12 @@ type Product struct {
 }
 
 type ProductSpec struct {
-	Description string `json:"description"`
+	ID            int    `json:"id"`
+	Description   string `json:"description"`
+	AppsCount     int    `json:"apps_count"`
+	BackendsCount int    `json:"backends_count"`
+	Name          string `json:"name"`
+	SystemName    string `json:"system_name"`
 }
 
 type ProductList struct {
