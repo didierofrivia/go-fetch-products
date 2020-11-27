@@ -29,6 +29,7 @@ func Index(w http.ResponseWriter, productList v1alpha1.ProductList) {
 				{{range .Items}}
 					<tr>
 						<td>{{ .Spec.ID }}</td>
+						<td>{{ .Spec.Name }}</td>
 						<td>{{ .Spec.Description }}</td>
 						<td>{{ .Spec.BackendsCount }}</td>
 						<td>{{ .Spec.AppsCount }}</td>
