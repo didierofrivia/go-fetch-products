@@ -5,14 +5,14 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
+	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 
 	"github.com/didierofrivia/go-fetch-products/pkg/apis/k8sinitiative.3scale.net/v1alpha1"
-	"k8s.io/client-go/kubernetes/scheme"
+	products "github.com/didierofrivia/go-fetch-products/pkg/pages"
 )
 
 const homepageEndPoint = "/"
@@ -65,19 +65,22 @@ func handleProductsPage(w http.ResponseWriter, r *http.Request) {
 	}
 	result := v1alpha1.ProductList{}
 
-	for {
-		err := threescaleRestClient.
-			Get().
-			Namespace("k8sinitiative").
-			Resource("products").
-			Do().
-			Into(&result)
+	getErr := threescaleRestClient.
+		Get().
+		Namespace("k8sinitiative").
+		Resource("products").
+		Do().
+		Into(&result)
 
-		fmt.Printf("%d results found: %+v\n", len(result.Items), result)
-		fmt.Println(err)
-
-		time.Sleep(10 * time.Second)
+	fmt.Printf("%d results found: %+v\n", len(result.Items), result)
+	fmt.Println(getErr)
+	products.Index(result)
+	/* msg := fmt.Sprintf("%d results found: %+v\n", len(result.Items), result)
+	_, writeErr := w.Write([]byte(msg))
+	if writeErr != nil {
+		fmt.Printf("Failed to write response, err: %s", writeErr)
 	}
+	*/
 }
 
 func main() {

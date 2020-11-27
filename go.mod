@@ -8,4 +8,7 @@ require (
 
 )
 
-replace github.com/didierofrivia/go-fetch-products/pkg/apis/k8sinitiative.3scale.net/v1alpha1 => ./pkg/apis/k8sinitiative.3scale.net/v1alpha1
+replace (
+	github.com/didierofrivia/go-fetch-products/pkg/apis/k8sinitiative.3scale.net/v1alpha1 => ./pkg/apis/k8sinitiative.3scale.net/v1alpha1
+	github.com/didierofrivia/go-fetch-products/pkg/pages => ./pkg/pages
+)
