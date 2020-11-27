@@ -3,13 +3,13 @@ package products
 import (
 	"html/template"
 	"log"
-	"os"
+	"net/http"
 
 	"github.com/didierofrivia/go-fetch-products/pkg/apis/k8sinitiative.3scale.net/v1alpha1"
 )
 
 // Index prints the list of products
-func Index(productList v1alpha1.ProductList) {
+func Index(w http.ResponseWriter, productList v1alpha1.ProductList) {
 	const tpl = `
 	<!DOCTYPE html>
 	<html>
@@ -18,7 +18,23 @@ func Index(productList v1alpha1.ProductList) {
 			<title>Products</title>
 		</head>
 		<body>
-			{{range .Items}}<div>{{ .Spec }}</div>{{else}}<div><strong>no rows</strong></div>{{end}}
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Nº of Backends</th>
+					<th>Nº of Apps</th>
+				</tr>
+				{{range .Items}}
+					<tr>
+						<td>{{ .Spec.ID }}</td>
+						<td>{{ .Spec.Description }}</td>
+						<td>{{ .Spec.BackendsCount }}</td>
+						<td>{{ .Spec.AppsCount }}</td>
+					</tr>
+				{{end}}
+			</table>
 		</body>
 	</html>`
 
@@ -30,11 +46,6 @@ func Index(productList v1alpha1.ProductList) {
 	t, err := template.New("webpage").Parse(tpl)
 	check(err)
 
-	err = t.Execute(os.Stdout, productList)
-	check(err)
-
-	noItems := v1alpha1.ProductList{}
-
-	err = t.Execute(os.Stdout, noItems)
+	err = t.Execute(w, productList)
 	check(err)
 }

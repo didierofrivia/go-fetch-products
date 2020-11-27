@@ -74,7 +74,7 @@ func handleProductsPage(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("%d results found: %+v\n", len(result.Items), result)
 	fmt.Println(getErr)
-	products.Index(result)
+	products.Index(w, result)
 	/* msg := fmt.Sprintf("%d results found: %+v\n", len(result.Items), result)
 	_, writeErr := w.Write([]byte(msg))
 	if writeErr != nil {
